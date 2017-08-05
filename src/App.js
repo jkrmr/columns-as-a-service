@@ -12,8 +12,7 @@ class App extends Component {
 
     this.state = {
       errors: [],
-      tableBody: [],
-      numberOfColumns: this.MIN_COLS
+      tableBody: []
     }
   }
 
@@ -23,8 +22,7 @@ class App extends Component {
         <CSVForm
           minColumns={this.MIN_COLS}
           maxColumns={this.MAX_COLS}
-          updateSharedState={this.setState.bind(this)}
-        />
+          updateSharedState={this.setState.bind(this)} />
 
         {this.renderResults()}
       </div>
@@ -33,17 +31,9 @@ class App extends Component {
 
   renderResults () {
     if (this.state.errors.length > 0) {
-      return (
-        <div className='errors-container'>
-          {this.state.errors}
-        </div>
-      )
+      return <div className='errors-container'>{this.state.errors}</div>
     } else {
-      return (
-        <ResultsTable
-          tableBody={this.state.tableBody}
-          numberOfColumns={this.state.numberOfColumns} />
-      )
+      return <ResultsTable tableBody={this.state.tableBody} />
     }
   }
 }

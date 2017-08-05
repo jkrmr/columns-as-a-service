@@ -1,8 +1,11 @@
 import React from 'react'
 import _ from 'underscore'
 
-const ResultsTable = ({ tableBody, numberOfColumns }) => {
+const ResultsTable = ({ tableBody }) => {
   if (tableBody.length === 0) { return <div /> }
+
+  const firstRow = tableBody[0]
+  const numberOfColumns = firstRow.length
 
   const renderTableRows = (tableBody) => {
     return _.map(tableBody, (row, rowNum) => {
