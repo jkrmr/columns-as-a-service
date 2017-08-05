@@ -7,10 +7,7 @@ const ColumnarTable = {
     `numberOfColumns` (an Integer) from `valuesList`, expected to be a
     1-dimensional Array.
   */
-  fromValues: ({
-    valuesList,
-    numberOfColumns
-  }) => {
+  fromValues: ({ valuesList, numberOfColumns }) => {
     const sliceLength = Math.ceil(valuesList.length / numberOfColumns)
 
     // partition values list into slices of length sliceLength
@@ -21,9 +18,7 @@ const ColumnarTable = {
 
     // right-pad each row to the specified number of columns
     // (so a <td> will be rendered for empty cells, for valid HTML)
-    tableBody.forEach(row => {
-      row.length = numberOfColumns
-    })
+    tableBody.forEach(row => { row.length = numberOfColumns })
 
     return tableBody
   }

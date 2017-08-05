@@ -68,7 +68,10 @@ class CSVForm extends Component {
     this.setState({ inputString, inputColumns })
     this.props.updateSharedState({ selectedNumberOfColumns: inputColumns })
 
-    const list = inputString.split(',').filter(s => s !== '')
+    const list =
+      inputString
+      .split(',')
+      .filter(s => s !== '')
 
     if (list.length > 0 && list.length <= this.props.maxEntries) {
       this.clearErrors()
@@ -77,17 +80,17 @@ class CSVForm extends Component {
         selectedNumberOfColumns: inputColumns
       })
     } else {
-      this.setError(`Entered ${list.length} items. Please enter between 1 and 100.`)
+      this.setError(`Entered ${list.length} items.
+                     Please enter between 1 and ${this.props.maxEntries}.`)
     }
   }
 
   setError (message) {
-    this.clearErrors()
     this.props.updateSharedState({ errors: [message], inputValues: [] })
   }
 
   clearErrors () {
-    this.props.updateSharedState({errors: []})
+    this.props.updateSharedState({ errors: [] })
   }
 }
 
