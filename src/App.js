@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
 import _ from 'underscore'
+import React, { Component } from 'react'
+
 import eachSlice from './eachSlice'
 import './App.css'
 
@@ -7,10 +8,10 @@ class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      csv: '',
-      slicedCells: [],
+      inputString: '',
       numberOfColumns: 2,
-      errors: []
+      errors: [],
+      tableBody: []
     }
   }
 
@@ -19,24 +20,24 @@ class App extends Component {
 
     const sliceLength = Math.ceil(valuesList.length / numberOfColumns)
     const slices = eachSlice(valuesList, sliceLength)
-    const slicedCells = _.zip(...slices)
-    slicedCells.forEach(row => { row.length = numberOfColumns })
+    const tableBody = _.zip(...slices)
+    tableBody.forEach(row => { row.length = numberOfColumns })
 
-    this.setState({ slicedCells })
+    this.setState({ tableBody })
   }
 
   setError (message) {
     this.clearErrors()
-    this.setState({ errors: [message] })
+    this.setState({ errors: [message], tableBody: [] })
   }
 
   clearErrors () {
     this.setState({errors: []})
   }
 
-  handleInput ({ csv, numberOfColumns }) {
-    this.setState({ csv, numberOfColumns })
-    const list = csv.split(',').filter(s => s !== '')
+  handleInput ({ inputString, numberOfColumns }) {
+    this.setState({ inputString, numberOfColumns })
+    const list = inputString.split(',').filter(s => s !== '')
 
     if (list.length > 0 && list.length <= 100) {
       this.populateTable({
@@ -50,27 +51,44 @@ class App extends Component {
 
   handleKeyUp (event) {
     this.handleInput({
-      csv: event.target.value,
+      inputString: event.target.value,
       numberOfColumns: this.state.numberOfColumns
     })
   }
 
   handleChange (event) {
     this.handleInput({
-      csv: event.target.value,
+      inputString: event.target.value,
       numberOfColumns: this.state.numberOfColumns
     })
   }
 
   handleSelectChange (event) {
     this.handleInput({
-      csv: this.state.csv,
+      inputString: this.state.inputString,
       numberOfColumns: parseInt(event.target.value, 10)
     })
   }
 
   renderTable () {
-    return _.map(this.state.slicedCells, (row, rowNum) => {
+    if (this.state.tableBody.length === 0 || this.state.errors.length > 0) {
+      return
+    }
+
+    return (
+      <div className='ResultsTable'>
+        <table>
+          <tbody>
+            {this.renderTableHeaders()}
+            {this.renderTableRows()}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
+  renderTableRows () {
+    return _.map(this.state.tableBody, (row, rowNum) => {
       return (
         <tr key={rowNum}>
           {_.map(row, (cell, colNum) => <td key={`${rowNum}-${colNum}`}>{cell}</td>)}
@@ -104,9 +122,9 @@ class App extends Component {
         <form className='CsvForm' onSubmit={e => e.preventDefault()}>
           <div>
             <input
-              name='csv'
+              name='inputString'
               type='text'
-              value={this.state.csv}
+              value={this.state.inputString}
               onChange={this.handleChange.bind(this)}
               onKeyUp={this.handleKeyUp.bind(this)} />
           </div>
@@ -125,14 +143,7 @@ class App extends Component {
           {this.renderErrors()}
         </form>
 
-        <div className='ResultsTable'>
-          <table>
-            <tbody>
-              {this.renderTableHeaders()}
-              {this.renderTable()}
-            </tbody>
-          </table>
-        </div>
+        {this.renderTable()}
       </div>
     )
   }
