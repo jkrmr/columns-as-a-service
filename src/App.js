@@ -35,7 +35,7 @@ class App extends Component {
 
   renderResults () {
     if (this.state.errors.length > 0) {
-      return <div className='errors-container'>{this.state.errors}</div>
+      return <div className='errors'>{this.state.errors}</div>
     } else {
       const table = ColumnarTable.fromValues({
         valuesList: this.state.inputValues,

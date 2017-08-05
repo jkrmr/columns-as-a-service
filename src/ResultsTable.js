@@ -1,6 +1,8 @@
 import React from 'react'
 import _ from 'underscore'
 
+import './ResultsTable.css'
+
 const ResultsTable = ({ tableBody }) => {
   if (tableBody.length === 0) { return <div /> }
 

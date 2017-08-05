@@ -2,33 +2,7 @@
     text-align: center;
 }
 
-.CsvForm {
-    text-align: center;
-}
-
-.ResultsTable {
-    text-align: center;
-    max-width: 500px;
-    margin: auto;
-}
-
-.ResultsTable table {
-    margin: auto;
-    padding: 10px;
-    border: 1px solid black;
-}
-
-.ResultsTable td,
-.ResultsTable th {
-    overflow: hidden;
-    min-width: 50px;
-}
-
-.ResultsTable tr:first-child {
-    border-bottom: 1px solid black;
-}
-
-.errors-container {
+.App .errors {
     color: red;
     font-size: 80%;
 }

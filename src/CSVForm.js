@@ -1,6 +1,8 @@
 import _ from 'underscore'
 import React, { Component } from 'react'
 
+import './CSVForm.css'
+
 class CSVForm extends Component {
   constructor (props) {
     super(props)
@@ -13,7 +15,7 @@ class CSVForm extends Component {
   render () {
     return (
       <form
-        className='CsvForm'
+        className='CSVForm'
         onSubmit={e => e.preventDefault()}>
 
         <div>
