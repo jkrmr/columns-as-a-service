@@ -1,5 +1,6 @@
 import _ from 'underscore'
-import eachSlice from './eachSlice'
+
+import Enum from './Enum'
 
 const ColumnarTable = {
   /**
@@ -11,7 +12,7 @@ const ColumnarTable = {
     const sliceLength = Math.ceil(valuesList.length / numberOfColumns)
 
     // partition values list into slices of length sliceLength
-    const slices = eachSlice(valuesList, sliceLength)
+    const slices = Enum.eachSlice(valuesList, sliceLength)
 
     // transpose to make each slice into a column
     const tableBody = _.zip(...slices)
