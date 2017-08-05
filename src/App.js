@@ -2,6 +2,7 @@ import _ from 'underscore'
 import React, { Component } from 'react'
 
 import eachSlice from './eachSlice'
+import ResultsTable from './ResultsTable'
 import './App.css'
 
 class App extends Component {
@@ -70,52 +71,6 @@ class App extends Component {
     })
   }
 
-  renderTable () {
-    if (this.state.tableBody.length === 0 || this.state.errors.length > 0) {
-      return
-    }
-
-    return (
-      <div className='ResultsTable'>
-        <table>
-          <tbody>
-            {this.renderTableHeaders()}
-            {this.renderTableRows()}
-          </tbody>
-        </table>
-      </div>
-    )
-  }
-
-  renderTableRows () {
-    return _.map(this.state.tableBody, (row, rowNum) => {
-      return (
-        <tr key={rowNum}>
-          {_.map(row, (cell, colNum) => <td key={`${rowNum}-${colNum}`}>{cell}</td>)}
-        </tr>
-      )
-    })
-  }
-
-  renderTableHeaders () {
-    return (
-      <tr>
-        {_.range(1, this.state.numberOfColumns + 1)
-          .map((n) => <th key={`col-${n}`}>{n}</th>)}
-      </tr>
-    )
-  }
-
-  renderErrors () {
-    if (this.state.errors.count === 0) { return }
-
-    return (
-      <div className='errors-container'>
-        {this.state.errors}
-      </div>
-    )
-  }
-
   render () {
     return (
       <div className='App'>
@@ -139,13 +94,27 @@ class App extends Component {
               {_.range(2, 11).map(n => <option key={n} value={n}>{n}</option>)}
             </select>
           </div>
-
-          {this.renderErrors()}
         </form>
 
-        {this.renderTable()}
+        {this.renderResults()}
       </div>
     )
+  }
+
+  renderResults () {
+    if (this.state.errors.length > 0) {
+      return (
+        <div className='errors-container'>
+          {this.state.errors}
+        </div>
+      )
+    } else {
+      return (
+        <ResultsTable
+          tableBody={this.state.tableBody}
+          numberOfColumns={this.state.numberOfColumns} />
+      )
+    }
   }
 }
 
