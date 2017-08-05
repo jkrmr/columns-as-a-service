@@ -1,7 +1,5 @@
-import React, { Component } from 'react'
 import _ from 'underscore'
-
-import eachSlice from './eachSlice'
+import React, { Component } from 'react'
 
 class CSVForm extends Component {
   constructor (props) {
@@ -68,14 +66,15 @@ class CSVForm extends Component {
 
   handleInput ({ inputString, inputColumns }) {
     this.setState({ inputString, inputColumns })
-    this.props.updateSharedState({ numberOfColumns: inputColumns })
+    this.props.updateSharedState({ selectedNumberOfColumns: inputColumns })
 
     const list = inputString.split(',').filter(s => s !== '')
 
-    if (list.length > 0 && list.length <= 100) {
-      this.populateTable({
-        valuesList: list,
-        numberOfColumns: inputColumns
+    if (list.length > 0 && list.length <= this.props.maxEntries) {
+      this.clearErrors()
+      this.props.updateSharedState({
+        inputValues: list,
+        selectedNumberOfColumns: inputColumns
       })
     } else {
       this.setError(`Entered ${list.length} items. Please enter between 1 and 100.`)
@@ -84,27 +83,11 @@ class CSVForm extends Component {
 
   setError (message) {
     this.clearErrors()
-    this.props.updateSharedState({ errors: [message], tableBody: [] })
+    this.props.updateSharedState({ errors: [message], inputValues: [] })
   }
 
   clearErrors () {
     this.props.updateSharedState({errors: []})
-  }
-
-  populateTable ({valuesList, numberOfColumns}) {
-    this.clearErrors()
-
-    const sliceLength = Math.ceil(valuesList.length / numberOfColumns)
-    const slices = eachSlice(valuesList, sliceLength)
-    const tableBody = _.zip(...slices)
-
-    // right-pad each row to the specified length
-    tableBody.forEach(row => { row.length = numberOfColumns })
-
-    this.props.updateSharedState({
-      tableBody: tableBody,
-      numberOfColumns: numberOfColumns
-    })
   }
 }
 

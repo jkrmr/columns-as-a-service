@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import CSVForm from './CSVForm'
 import ResultsTable from './ResultsTable'
+import ColumnarTable from './ColumnarTable'
 import './App.css'
 
 class App extends Component {
@@ -9,10 +10,12 @@ class App extends Component {
     super(props)
     this.MIN_COLS = 2
     this.MAX_COLS = 10
+    this.MAX_CSV_ENTRIES = 100
 
     this.state = {
       errors: [],
-      tableBody: []
+      inputValues: [],
+      selectedNumberOfColumns: this.MIN_COLS
     }
   }
 
@@ -22,6 +25,7 @@ class App extends Component {
         <CSVForm
           minColumns={this.MIN_COLS}
           maxColumns={this.MAX_COLS}
+          maxEntries={this.MAX_CSV_ENTRIES}
           updateSharedState={this.setState.bind(this)} />
 
         {this.renderResults()}
@@ -33,7 +37,12 @@ class App extends Component {
     if (this.state.errors.length > 0) {
       return <div className='errors-container'>{this.state.errors}</div>
     } else {
-      return <ResultsTable tableBody={this.state.tableBody} />
+      const table = ColumnarTable.fromValues({
+        valuesList: this.state.inputValues,
+        numberOfColumns: this.state.selectedNumberOfColumns
+      })
+
+      return <ResultsTable tableBody={table} />
     }
   }
 }
