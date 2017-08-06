@@ -1,9 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import App from './App'
+import ResultsTable from './ResultsTable'
 
 it('renders without crashing', () => {
   const div = document.createElement('div')
-  ReactDOM.render(<App />, div)
+  const table = <ResultsTable tableBody={[]} />
+
+  ReactDOM.render(table, div)
 })

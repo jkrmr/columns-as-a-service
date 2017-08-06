@@ -11,6 +11,8 @@ const ColumnarTable = {
   fromValues: ({ valuesList, numberOfColumns }) => {
     const sliceLength = Math.ceil(valuesList.length / numberOfColumns)
 
+    if (sliceLength < 1 || isNaN(sliceLength)) { return [] }
+
     // partition values list into slices of length sliceLength
     const slices = Enum.eachSlice(valuesList, sliceLength)
 
