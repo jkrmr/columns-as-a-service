@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import './index.css'
-import App from './App'
+import CSVTransformer from './CSVTransformer'
 import registerServiceWorker from './registerServiceWorker'
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<CSVTransformer />, document.getElementById('root'))
 registerServiceWorker()

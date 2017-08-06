@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 import CSVForm from './CSVForm'
 import ResultsTable from './ResultsTable'
 import ColumnarTable from './ColumnarTable'
-import './App.css'
+import './CSVTransformer.css'
 
-class App extends Component {
+class CSVTransformer extends Component {
   constructor (props) {
     super(props)
     this.MIN_COLS = 2
@@ -38,4 +38,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default CSVTransformer
