@@ -1,3 +1,9 @@
 .CSVForm {
     text-align: center;
 }
+
+.CSVForm .errors {
+    color: #a94442;
+    font-size: 80%;
+    list-style-type: none;
+}

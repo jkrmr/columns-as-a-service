@@ -1,8 +1,4 @@
 .App {
     text-align: center;
-}
-
-.App .errors {
-    color: red;
-    font-size: 80%;
+    margin-top: 30px;
 }

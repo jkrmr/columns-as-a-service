@@ -1,5 +1,12 @@
 import _ from 'underscore'
 import React, { Component } from 'react'
+import {
+  Col,
+  ControlLabel,
+  Form,
+  FormControl,
+  FormGroup
+} from 'react-bootstrap/lib'
 
 import './CSVForm.css'
 
@@ -8,39 +15,51 @@ class CSVForm extends Component {
     super(props)
     this.state = {
       inputString: '',
-      inputColumns: this.props.minColumns
+      inputColumns: this.props.minColumns,
+      errors: []
     }
+  }
+
+  validationState () {
+    if (this.state.errors.length === 0) { return }
+    return 'error'
   }
 
   render () {
     return (
-      <form
-        className='CSVForm'
-        onSubmit={e => e.preventDefault()}>
+      <form className='CSVForm' onSubmit={e => e.preventDefault()}>
+        <Form componentClass='fieldset' horizontal>
+          <FormGroup controlId='formControlsSelect'>
+            <Col componentClass={ControlLabel} xs={4}>
+              Number of columns:
+            </Col>
 
-        <div>
-          <input
+            <Col xs={3}>
+              <FormControl
+                componentClass='select'
+                onChange={this.handleSelectChange.bind(this)}>
+                {
+                  _.range(this.props.minColumns, this.props.maxColumns + 1)
+                   .map(n => <option key={n} value={n}>{n}</option>)
+                }
+              </FormControl>
+            </Col>
+          </FormGroup>
+        </Form>
+
+        <FormGroup validationState={this.validationState()}>
+          <FormControl
+            label='text'
             name='inputString'
-            type='text'
-            value={this.state.inputString}
             onChange={this.handleChange.bind(this)}
-            onKeyUp={this.handleKeyUp.bind(this)} />
-        </div>
+            onKeyUp={this.handleKeyUp.bind(this)}
+            placeholder='Enter comma-separated values'
+            type='text'
+            value={this.state.inputString} />
+          <FormControl.Feedback />
+        </FormGroup>
 
-        <div>
-          <label htmlFor='cols'>
-            Number of columns to display:
-          </label>
-
-          <select
-            name='cols'
-            onChange={this.handleSelectChange.bind(this)}>
-            {
-              _.range(this.props.minColumns, this.props.maxColumns + 1)
-               .map(n => <option key={n} value={n}>{n}</option>)
-            }
-          </select>
-        </div>
+        {this.renderErrors()}
       </form>
     )
   }
@@ -88,11 +107,20 @@ class CSVForm extends Component {
   }
 
   setError (message) {
-    this.props.updateSharedState({ errors: [message], inputValues: [] })
+    this.setState({ errors: [message] })
+    this.props.updateSharedState({ inputValues: [] })
   }
 
   clearErrors () {
-    this.props.updateSharedState({ errors: [] })
+    this.setState({ errors: [] })
+  }
+
+  renderErrors () {
+    return (
+      <ul className='errors'>
+        {_.map(this.state.errors, (err, i) => <li key={i}>{err}</li>)}
+      </ul>
+    )
   }
 }
 

@@ -13,13 +13,17 @@ class App extends Component {
     this.MAX_CSV_ENTRIES = 100
 
     this.state = {
-      errors: [],
       inputValues: [],
       selectedNumberOfColumns: this.MIN_COLS
     }
   }
 
   render () {
+    const table = ColumnarTable.fromValues({
+      valuesList: this.state.inputValues,
+      numberOfColumns: this.state.selectedNumberOfColumns
+    })
+
     return (
       <div className='App'>
         <CSVForm
@@ -28,22 +32,9 @@ class App extends Component {
           maxEntries={this.MAX_CSV_ENTRIES}
           updateSharedState={this.setState.bind(this)} />
 
-        {this.renderResults()}
+        <ResultsTable tableBody={table} />
       </div>
     )
-  }
-
-  renderResults () {
-    if (this.state.errors.length > 0) {
-      return <div className='errors'>{this.state.errors}</div>
-    } else {
-      const table = ColumnarTable.fromValues({
-        valuesList: this.state.inputValues,
-        numberOfColumns: this.state.selectedNumberOfColumns
-      })
-
-      return <ResultsTable tableBody={table} />
-    }
   }
 }
 
