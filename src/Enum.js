@@ -1,17 +1,15 @@
-/**
- * Slice an enumerable `collection` into a list of lists, each sub-list of
- * length at least `sliceLength`.
- *
- * Signature:
- *
- *   Enum.eachSlice(obj, sliceLength)
- *
- * Example:
- *
- *   >>> Enum.eachSlice([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4)
- *   [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10]]
- *
- **/
+// Slice an enumerable `collection` into a list of lists, each sub-list of
+// length at least `sliceLength`.
+//
+// Signature:
+//
+//   Enum.eachSlice(obj, sliceLength)
+//
+// Example:
+//
+//   >>> Enum.eachSlice([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4)
+//   [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10]]
+//
 const Enum = {
   eachSlice: (collection, sliceLength) => {
     if (sliceLength < 1) {

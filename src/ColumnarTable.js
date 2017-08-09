@@ -3,11 +3,11 @@ import _ from 'underscore'
 import Enum from './Enum'
 
 const ColumnarTable = {
-  /**
-    Generate a columnar table (as an Array of Arrays) of width
-    `numberOfColumns` (an Integer) from `valuesList`, expected to be a
-    1-dimensional Array.
-  */
+  //
+  // Generate a columnar table (as an Array of Arrays) of width
+  // `numberOfColumns` (an Integer) from `valuesList`, expected to be a
+  // 1-dimensional Array.
+  //
   fromValues: ({ valuesList, numberOfColumns }) => {
     const sliceLength = Math.ceil(valuesList.length / numberOfColumns)
 
