@@ -76,54 +76,86 @@ Architecture
 
 * `ColumnarTable`
 
-  ```javascript
-  // src/ColumnarTable.js L5-L28 (4ddf0c9f)
+```javascript
+// src/ColumnarTable.js L6-L27 (d36ac344)
 
-  const ColumnarTable = {
-    /**
-      Generate a columnar table (as an Array of Arrays) of width
-      `numberOfColumns` (an Integer) from `valuesList`, expected to be a
-      1-dimensional Array.
-    */
-    fromValues: ({ valuesList, numberOfColumns }) => {
-      const sliceLength = Math.ceil(valuesList.length / numberOfColumns)
+  //
+  // Generate a columnar table (as an Array of Arrays) of width
+  // `numberOfColumns` (an Integer) from `valuesList`, expected to be a
+  // 1-dimensional Array.
+  //
+  fromValues: ({ valuesList, numberOfColumns }) => {
+    const sliceLength = Math.ceil(valuesList.length / numberOfColumns)
 
-      if (sliceLength < 1 || isNaN(sliceLength)) { return [] }
+    if (sliceLength < 1 || isNaN(sliceLength)) { return [] }
 
-      // partition values list into slices of length sliceLength
-      const slices = Enum.eachSlice(valuesList, sliceLength)
+    // partition values list into slices of length sliceLength
+    const slices = Enum.eachSlice(valuesList, sliceLength)
 
-      // transpose to make each slice into a column
-      const tableBody = _.zip(...slices)
+    // transpose to make each slice into a column
+    const tableBody = _.zip(...slices)
 
-      // right-pad each row to the specified number of columns
-      // (so a <td> will be rendered for empty cells, for valid HTML)
-      tableBody.forEach(row => { row.length = numberOfColumns })
+    // right-pad each row to the specified number of columns
+    // (so a <td> will be rendered for empty cells, for valid HTML)
+    tableBody.forEach(row => { row.length = numberOfColumns })
 
-      return tableBody
-    }
+    return tableBody
   }
-  ```
-  <sup>
-    <a href="https://github.com/jkrmr/columns-as-a-service/blob/4ddf0c9f/src/ColumnarTable.js#L5-L28">
-      src/ColumnarTable.js#L5-L28 (4ddf0c9f)
-    </a>
-  </sup>
+```
+<sup>
+  <a href="https://github.com/jkrmr/columns-as-a-service/blob/d36ac344/src/ColumnarTable.js#L6-L27">
+    src/ColumnarTable.js#L6-L27 (d36ac344)
+  </a>
+</sup>
 
 
 * `Enum`
 
-  ```javascript
-  // src/Enum.js L11-L12 (4ddf0c9f)
+```javascript
+// src/Enum.js L1-L35 (d36ac344)
 
-  *   >>> Enum.eachSlice([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4)
-  *   [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10]]
-  ```
-  <sup>
-    <a href="https://github.com/jkrmr/columns-as-a-service/blob/4ddf0c9f/src/Enum.js#L11-L12">
-      src/Enum.js#L11-L12 (4ddf0c9f)
-    </a>
-  </sup>
+// Slice an enumerable `collection` into a list of lists, each sub-list of
+// length at least `sliceLength`.
+//
+// Signature:
+//
+//   Enum.eachSlice(obj, sliceLength)
+//
+// Example:
+//
+//   >>> Enum.eachSlice([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4)
+//   [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10]]
+//
+const Enum = {
+  eachSlice: (collection, sliceLength) => {
+    if (sliceLength < 1) {
+      throw new InvalidSliceSizeException(sliceLength)
+    }
+
+    const slicedList = []
+    const list = collection.map(e => e)
+    if (typeof list.slice === 'undefined') { return slicedList }
+
+    const numberOfSlices = Math.ceil(list.length / sliceLength)
+
+    for (let i = 0; i < numberOfSlices; i++) {
+      const startIdx = i * sliceLength
+      const endIdx = startIdx + sliceLength
+      const slice = list.slice(startIdx, endIdx)
+
+      slicedList.push(slice)
+    }
+
+    return slicedList
+  }
+}
+```
+<sup>
+  <a href="https://github.com/jkrmr/columns-as-a-service/blob/d36ac344/src/Enum.js#L1-L35">
+    src/Enum.js#L1-L35 (d36ac344)
+  </a>
+</sup>
+
 
 
 Tests
