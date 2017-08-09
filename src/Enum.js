@@ -1,6 +1,6 @@
 /**
- * Emulates Ruby's Enumerable#each_slice method.
- * http://www.ruby-doc.org/core/classes/Enumerable.html#M001514
+ * Slice an enumerable `collection` into a list of lists, each sub-list of
+ * length at least `sliceLength`.
  *
  * Signature:
  *

@@ -55,7 +55,7 @@ describe('Enum.eachSlice', () => {
     })
   })
 
-  describe('given an invalid slice size', () => {
+  describe('given a zero slice size', () => {
     it('raises an exception', () => {
       const originalArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
       const expectedArray = [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]

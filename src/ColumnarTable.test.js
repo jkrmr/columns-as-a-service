@@ -67,7 +67,7 @@ describe("ColumnarTable.fromValues", () => {
     assert.deepEqual(actualTable, [])
   })
 
-  it("given an invalid number of columns, returns an empty table", () => {
+  it("given zero columns, returns an empty table", () => {
     const list = [1, 2, 3]
 
     const actualTable = ColumnarTable.fromValues({
